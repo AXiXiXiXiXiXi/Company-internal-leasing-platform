@@ -1,0 +1,75 @@
+# 依赖
+node_modules/
+**/node_modules/
+
+# 构建产物
+dist/
+**/dist/
+.vite/
+**/.vite/
+*.tsbuildinfo
+
+# 环境变量和本地配置
+.env
+**/.env
+.env.local
+**/.env.local
+.env.*.local
+**/.env.*.local
+backend/.env
+frontend/.env.production
+
+# 日志和进程文件
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.pid
+*.pid.lock
+
+# 测试和覆盖率
+coverage/
+**/coverage/
+.nyc_output/
+**/.nyc_output/
+
+# 本地缓存和临时文件
+.cache/
+**/.cache/
+.tmp/
+**/.tmp/
+temp/
+**/temp/
+
+# 数据库备份
+backups/
+**/backups/
+*.bak
+*.dump
+*.sql.gz
+
+# 本地 MySQL 数据目录
+mysql-data/
+**/mysql-data/
+
+# 证书和私钥
+certs/
+**/certs/
+*.key
+*.pem
+*.p12
+*.pfx
+
+# IDE
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.iml
+
+# 操作系统
+.DS_Store
+Thumbs.db
+desktop.ini
+AI_CONTEXT.md
+DESIGN.md
