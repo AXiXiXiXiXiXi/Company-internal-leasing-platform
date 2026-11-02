@@ -1,20 +1,99 @@
 # 固定资产借还管理系统
 
-面向小团队的内部设备和固定资产借还管理系统，包含：
+一个面向小团队的内部设备管理项目，用清晰、可追溯的流程管理公司固定资产的申请、审批、借出和归还。
 
-- 管理员与员工账号和权限
-- 资产台账、维修和报废状态
-- 借用申请、审批、实际借出和归还
-- 当前借用、逾期和历史查询
-- 站内通知、管理员待办和实时推送
-- 管理员手动发送站内通知
+![Vue 3](https://img.shields.io/badge/Vue-3-42B883?logo=vue.js&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)
+![NestJS](https://img.shields.io/badge/NestJS-11-E0234E?logo=nestjs&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?logo=mysql&logoColor=white)
+![Socket.IO](https://img.shields.io/badge/Socket.IO-4-010101?logo=socket.io&logoColor=white)
 
-技术栈：
+> 从资产查询到申请、审批、实际交接、归还和逾期查询，让每一件设备的状态与历史记录保持一致。
 
-- 前端：Vue 3 + TypeScript + Vite + Element Plus
-- 后端：NestJS + TypeORM
-- 数据库：MySQL 8.0
-- 实时通知：Socket.IO
+## 项目简介
+
+很多小团队仍使用聊天工具和手工表格管理设备，容易出现重复借出、审批结果不透明、逾期难以发现、归还记录缺失等问题。本项目把完整借还流程放进统一的网页系统：
+
+- 员工可以查设备、提交申请，并查看自己的申请和借用记录。
+- 管理员可以审批申请、确认实际借出、登记归还并发送站内通知。
+- 同一件资产在服务端和数据库层保证不会重复预留或重复借出。
+- 每次审批、交接和归还都会保留操作人、时间和状态历史。
+- 管理员在线时可以实时收到提醒，离线后重新登录仍能看到持久化通知和待办。
+
+## 核心业务流程
+
+```mermaid
+flowchart LR
+    A[员工提交申请] --> B[管理员审批]
+    B -->|批准| C[资产预留]
+    B -->|驳回| D[申请结束]
+    C --> E[实际交接]
+    E --> F[资产借出]
+    F --> G[管理员登记归还]
+    G --> H[资产恢复可借]
+    F --> I[逾期查询]
+    A --> J[操作历史]
+    B --> J
+    E --> J
+    G --> J
+```
+
+## 功能特性
+
+| 模块 | 能力 |
+| --- | --- |
+| 账号与权限 | JWT 身份认证、管理员/员工角色、账号启用停用、管理员重置密码 |
+| 资产台账 | 资产编号、名称、类别、序列号、位置、可借/预留/借出/维修/报废状态 |
+| 借用申请 | 提交、取消、批准、驳回、确认实际借出、完整操作轨迹 |
+| 借还管理 | 当前借用、逾期列表、历史记录、实际借还时间和经办信息 |
+| 站内通知 | 持久化未读状态、Socket.IO 实时推送、管理员待办 |
+| 手动通知 | 管理员选择全部启用账号或指定用户发送站内通知 |
+| 数据保护 | 事务、悲观行锁、唯一索引、角色守卫、密码哈希和输入校验 |
+| 响应式界面 | 桌面数据表格、手机卡片列表、键盘焦点和表单错误提示 |
+
+## 技术栈
+
+| 层级 | 技术 |
+| --- | --- |
+| 前端 | Vue 3、TypeScript、Vite、Vue Router、Pinia、Element Plus |
+| 后端 | NestJS、TypeORM、Passport JWT、Argon2id |
+| 数据库 | MySQL 8.0、事务、悲观锁、生成列唯一索引 |
+| 实时通信 | Socket.IO |
+| 接口文档 | Swagger / OpenAPI |
+
+## 技术架构
+
+```mermaid
+flowchart TB
+    Browser[Vue 3 浏览器端] -->|REST API| API[NestJS API]
+    Browser <-->|Socket.IO| Realtime[通知网关]
+    API --> Service[业务服务与事务]
+    Realtime --> Service
+    Service --> DB[(MySQL 8.0)]
+    API --> Docs[Swagger 文档]
+```
+
+## 可靠性与安全设计
+
+- 申请审批、借出和归还都使用数据库事务。
+- 操作资产时固定使用行锁顺序，降低并发审批冲突。
+- `active_asset_id` 生成列唯一索引从数据库层阻止同一资产重复预留。
+- JWT 每次请求都会重新确认账号仍然存在且处于启用状态。
+- 密码只保存 Argon2id 哈希，数据库凭据只存在于后端环境变量。
+- 前端根据角色优化导航，但所有权限最终由后端验证。
+- 通知先持久化再实时推送，断线重连后通过 REST 重新同步。
+
+## 文档导航
+
+- [后端接口文档](backend/docs/API.md)
+- [后端设计说明](backend/docs/BACKEND_DESIGN.md)
+- [前端设计说明](frontend/docs/FRONTEND_DESIGN.md)
+- [数据库设计](database/DESIGN.md)
+- [产品与业务上下文](AI_CONTEXT.md)
+
+## 本地部署
+
+下面按“数据库 → 后端 → 首次管理员 → 前端”的顺序完成本地部署。
 
 ## 1. 项目结构
 
@@ -258,3 +337,4 @@ npm run build
 ### 端口被占用
 
 默认端口为后端 `3000`、前端 `5173`。关闭占用端口的程序，或同时修改 `.env`、Vite 配置和代理目标。
+
