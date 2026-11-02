@@ -105,7 +105,6 @@ Desktop_program/
 │  ├─ schema.sql        全新数据库建表脚本
 │  ├─ migrations/       已有数据库升级脚本
 │  └─ DESIGN.md         数据库设计
-├─ AI_CONTEXT.md        产品与业务规则
 └─ README.md            本文档
 ```
 
