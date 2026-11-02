@@ -51,6 +51,47 @@ flowchart LR
 | 数据保护 | 事务、悲观行锁、唯一索引、角色守卫、密码哈希和输入校验 |
 | 响应式界面 | 桌面数据表格、手机卡片列表、键盘焦点和表单错误提示 |
 
+## 界面预览
+
+### 管理员工作台
+
+<p align="center">
+  <img src="img/admin-dashboard.png" alt="管理员工作台，展示可借资产、待审批、当前借出、已逾期和最近记录" width="100%">
+</p>
+
+### 资产台账与借还管理
+
+<p align="center">
+  <img src="img/asset-inventory.png" alt="资产台账页面，展示资产状态、类别和存放位置" width="49%">
+  <img src="img/loan-management.png" alt="实际借还页面，展示当前借用和登记归还入口" width="49%">
+</p>
+
+### 通知中心
+
+<p align="center">
+  <img src="img/notification-center.png" alt="通知待办页面，展示持久化站内通知和未读状态" width="49%">
+  <img src="img/send-notification.png" alt="管理员发送站内通知弹窗，支持全部账号和指定用户" width="49%">
+</p>
+
+### 用户管理
+
+<p align="center">
+  <img src="img/user-management.png" alt="用户管理页面，展示账号角色、启用状态和密码重置入口" width="49%">
+  <img src="img/user-create.png" alt="新增用户弹窗，展示姓名、工号、角色和初始密码字段" width="49%">
+</p>
+
+### 资产录入
+
+<p align="center">
+  <img src="img/asset-create.png" alt="新增资产弹窗，展示资产编号、名称、类别、序列号和存放位置字段" width="72%">
+</p>
+
+### 登录页
+
+<p align="center">
+  <img src="img/login.png" alt="设备借还管理系统登录页面和表单校验提示" width="72%">
+</p>
+
 ## 技术栈
 
 | 层级 | 技术 |
